@@ -16,3 +16,7 @@ by host index
 ## Command
 `ansible -m command -a "hostname" all`
 > command module (default)
+
+## Running playbooks
+
+`ansible-playbook <path to playbook>`
