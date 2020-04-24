@@ -1,0 +1,20 @@
+---
+  - hosts: loadbalancer
+    tasks:
+      - name: verify nginx service
+        command: service nginx status
+      - name: verify nginx listening on 80
+        wait_for: port=80 timeout=1
+  - hosts: webserver
+    tasks:
+      - name: verify apache2 service
+        command: service apache2 status
+      - name: verify apache2 listening on 80
+        wait_for: port=80 timeout=1
+  - hosts: database
+    tasks:
+      - name: verify mysql service
+        command: service mysql status
+      - name: verify mysql listening on 3306
+        wait_for: port=3306 timeout=1
+      
