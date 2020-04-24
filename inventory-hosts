@@ -1,5 +1,5 @@
 [database]
-db01 ansible_host=178.128.234.124 ansible_user=ansible
+db01 ansible_host=159.203.169.5 ansible_user=ansible
 
 [loadbalancer]
 lb01 ansible_host=159.89.116.1 ansible_user=ansible
