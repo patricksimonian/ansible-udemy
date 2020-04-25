@@ -18,3 +18,15 @@
       - name: verify mysql listening on 3306
         wait_for: port=3306 timeout=1
       
+  - hosts: control
+    tasks:
+      - name: verify e2e response
+        uri: url=http://{{ hostvars[item]['ansible_host'] }}  return_content=yes
+        with_items: "{{ groups.loadbalancer }}"
+        register: lb_index
+      
+      - fail: msg="index failed to return content"
+        when:
+          - "'Hello, from sunny ' in item.content"
+          - "item.item in item.content"
+        with_items: "{{ lb_index.results }}"
