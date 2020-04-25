@@ -11,15 +11,23 @@
   apt: name=nginx state=present update_cache=yes
 
 - name: configure nginx site
-  template: src=nginx.conf.j2 dest=/etc/nginx/sites-available/demo mode=0644
+  template: "src=nginx.conf.j2 dest=/etc/nginx/sites-available/{{ item.key }} mode=0644"
+  loop: "{{ sites|dict2items }}"
   notify: restart nginx
 
-- name: de activate nginx default
-  file: path=/etc/nginx/sites-enabled/default state=absent
-  notify: restart nginx
+- name: get active sites
+  shell: ls -1 /etc/nginx/sites-enabled
+  register: active_sites
 
-- name: activate demo site
-  file: src=/etc/nginx/sites-available/demo dest=/etc/nginx/sites-enabled/demo state=link
+- name: de activate nginx all sites that are not wanted
+  file: "path=/etc/nginx/sites-enabled/{{ item }} state=absent"
+  notify: restart nginx
+  when: item not in sites
+  loop: "{{ active_sites.stdout_lines }}"
+
+- name: activate site(s)
+  file: src=/etc/nginx/sites-available/{{ item.key }} dest=/etc/nginx/sites-enabled/{{ item.key }} state=link
+  loop: "{{ sites|dict2items }}"
   notify: restart nginx
 
 - name: ensure ngnix started
