@@ -18,7 +18,7 @@
     tasks:
       - name: restart database
         service: name=mysql state=restarted
-      - wait_for: port=3306 state=started
+      - wait_for: port=3306 state=started host={{ ansible_eth0.ipv4.address }}
   - hosts: loadbalancer
     become: true
     tasks:
