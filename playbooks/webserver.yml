@@ -1,46 +1,6 @@
 ---
   - hosts: webserver
     become: yes
-    tasks:
-      - name: Make sure pymysql is present
-        become: true # needed if the other tasks are not played as root
-        pip:
-          name: pymysql
-          state: present
-          update_cache: yes
-      - name: install web components
-        apt: 
-          state: present 
-          update_cache: yes
-          name: ['apache2', 'libapache2-mod-wsgi', 'python-pip', 'python-virtualenv', 'python-mysqldb']
-      - name: ensure apache started
-        service: name=apache2 state=started enabled=yes
-
-      - name: ensure mod_wsgi enabled
-        apache2_module: state=present name=wsgi
-        notify: restart apache2
-
-      - name: copy demo-app src
-        copy: src=../demo/app/ dest=/var/www/demo mode=0755
-        notify: restart apache2
-
-      - name: copy demo-app virtual host config
-        copy: src=../demo/demo.conf dest=/etc/apache2/sites-available mode=0755
-        notify: restart apache2
-        
-      - name: setupp python virtualenv
-        pip: requirements=/var/www/demo/requirements.txt virtualenv=/var/www/demo/.venv
-        notify: restart apache2
-        
-      - name: de-activate default apache site
-        file: path=/etc/apache2/sites-enabled/000-default.conf state=absent
-        notify: restart apache2
-        
-        
-      - name: activate flask site
-        file: src=/etc/apache2/sites-available/demo.conf dest=/etc/apache2/sites-enabled/demo.conf state=link
-        notify: restart apache2
-      
-    handlers:
-      - name: restart apache2
-        service: name=apache2 state=restarted
+    roles:
+      - apache2
+      - web_server
