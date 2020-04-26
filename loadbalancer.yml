@@ -1,0 +1,9 @@
+---
+  - hosts: loadbalancer
+    become: true
+    roles: 
+      - role: loadbalancer
+        sites:
+          demo:
+            frontend: 80
+            backend: 80

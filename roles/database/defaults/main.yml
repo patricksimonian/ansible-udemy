@@ -1,0 +1,6 @@
+---
+# defaults file for database
+db_username: demo_user
+db_name: myapp
+db_password: demo_password
+db_user_host: localhost

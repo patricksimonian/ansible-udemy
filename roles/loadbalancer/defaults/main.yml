@@ -1,0 +1,9 @@
+---
+# defaults file for loadbalancer
+sites: 
+  myapp: 
+    frontend: 80
+    backend: 80
+  myapp2:
+    frontend: 90
+    backend: 90
