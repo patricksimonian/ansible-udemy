@@ -8,7 +8,6 @@
 - name: install web components
   apt: 
     state: present 
-    update_cache: yes
     name: ['apache2', 'libapache2-mod-wsgi']
 
 - name: ensure mod_wsgi enabled

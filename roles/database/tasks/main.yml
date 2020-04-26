@@ -4,9 +4,8 @@
   apt:
     name: ['python-mysqldb']
     state: present
-    update_cache: yes
 - name: install mysql
-  apt: name=mysql-server state=present update_cache=yes
+  apt: name=mysql-server state=present
 - name: ensure mysql listening on all ports
   lineinfile: dest=/etc/mysql/my.cnf line="bind-address = {{ ansible_eth0.ipv4.address }} "
   notify: restart mysql

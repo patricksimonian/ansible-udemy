@@ -9,7 +9,6 @@
   - name: install web components
     apt: 
       state: present 
-      update_cache: yes
       name: ['python-pip', 'python-virtualenv', 'python-mysqldb']
 
   - name: copy demo-app src
